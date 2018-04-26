@@ -17,8 +17,6 @@ $data = array();
 $do_login = $client->ItsLogin($parametros);
 $error = $do_login->ItsLoginResult;
 if($error <> 1){
-    echo 'hola';
-    exit();
     $userSession = $do_login->UserSession;
     $pasajeroPDF = encriptado($_GET["pasajero"], 'd');
     $paramData = array('UserSession' => $userSession,
@@ -30,6 +28,8 @@ if($error <> 1){
                             );
     $get_dataCuotas = $client->ItsGetData($paramData);
     if(!$get_dataCuotas->ItsGetDataResult) {
+    echo 'hola';
+    exit();
         $getDataResult = simplexml_load_string($get_dataCuotas->XMLData);
         if(count($getDataResult->ROWDATA->ROW) > 0){
             $data['numero'] = (string)$getDataResult->ROWDATA->ROW[0]['NUM_COM'];
