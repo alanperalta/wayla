@@ -1,0 +1,66 @@
+.formularioAdhesion{
+    padding-bottom: 20px;
+    color: white;
+}
+
+@media(max-width: 768px){
+    .formularioAdhesion{
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.formularioAdhesion > button{
+    background-color: #FF6600;
+    margin-top: 50px;
+}
+
+.formularioAdhesion > button:hover{
+    color: white;
+    background-color: #ff9900;
+}
+
+.panel-cuotas>.panel-heading{
+    background-color: #FF6600;
+    color: white;
+}
+
+.lista-verde{
+    background-color: #6fd873;
+    color: white;
+}
+
+.cuota-saldo{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-imprimir{
+    background-color: #FF6600;
+    color: white;
+}
+
+.btn-chequera{
+    background-color: dimgrey;
+}
+
+.btn-chequera:hover{
+    color: white;
+}
+
+.div-imprimir{
+    padding-top: 20px;
+}
+
+.cuota-vencida{
+    color: red;
+}
+
+.sin-cuotas{
+    font-size: 16px;
+}
+
+.logo{
+    width: 100%;
+    text-align: center;
+}

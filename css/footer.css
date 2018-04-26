@@ -1,0 +1,13 @@
+.footer{
+    min-height: 70px;
+    background-color: #FF6600;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer > a{
+    color: white;
+    text-decoration: none
+}
