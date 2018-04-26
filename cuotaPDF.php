@@ -19,6 +19,9 @@ $error = $do_login->ItsLoginResult;
 if($error <> 1){
     $userSession = $do_login->UserSession;
     $pasajeroPDF = encriptado($_GET["pasajero"], 'd');
+    
+    echo 'n: '.$_GET['numero']." p: ".$pasajeroPDF;
+    exit();
     $paramData = array('UserSession' => $userSession,
  				'ItsClassName' => '_TUR_CUOTAS_INF',
  				'RecordCount' => 1,
@@ -28,8 +31,6 @@ if($error <> 1){
                             );
     $get_dataCuotas = $client->ItsGetData($paramData);
     if(!$get_dataCuotas->ItsGetDataResult) {
-    echo 'hola';
-    exit();
         $getDataResult = simplexml_load_string($get_dataCuotas->XMLData);
         if(count($getDataResult->ROWDATA->ROW) > 0){
             $data['numero'] = (string)$getDataResult->ROWDATA->ROW[0]['NUM_COM'];
