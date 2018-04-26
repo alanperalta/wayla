@@ -14,6 +14,7 @@
         <link href="includes/jQuery-ui/jquery-ui.theme.min.css" rel="stylesheet">
         <script src="js/login.js"></script>
         <script src="js/jquery.validate.min.js"></script>
+        <script src="js/additional-methods.min.js"></script>
         <script src="js/messages_es_AR.min.js"></script>
         <link href="includes/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="css/footer.css" rel="stylesheet">
@@ -56,7 +57,7 @@
                                 <div class="col-lg-12">
                                     <form id="login-form" action="cuentaCorriente.php" method="post" role="form" <?=(isset($_SESSION['FK_TUR_CONTRATOS']))?'style="display: none;"':'style="display: block;"'?>>
                                         <div class="form-group">
-                                            <input type="text" name="dni" id="dni" tabindex="1" class="form-control" placeholder="DNI del pasajero" value="<?=(isset($_COOKIE['dni']))?$_COOKIE['dni']:''?>" required>
+                                            <input type="text" name="dni" id="dni" tabindex="1" class="form-control" placeholder="DNI del pasajero" value="<?=(isset($_COOKIE['dni']))?$_COOKIE['dni']:''?>" required title="Ingrese un documento v&aacute;lido" pattern="^\d{1,3}[.]?\d{3}[.]?\d{3}$">
                                         </div>
                                         <div class="form-group text-center">
                                             <input type="checkbox" tabindex="3" class="" name="recordar" id="recordar" <?=(isset($_COOKIE['recordar']))?'checked':''?>>
