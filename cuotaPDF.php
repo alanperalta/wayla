@@ -20,7 +20,7 @@ if($error <> 1){
     $userSession = $do_login->UserSession;
     $pasajeroPDF = encriptado($_GET["pasajero"], 'd');
     
-    echo 'n: '.$_GET['numero']." p: ".$pasajeroPDF;
+    echo 'n: '.$_GET['numero']." p: ".$_GET["pasajero"];
     exit();
     $paramData = array('UserSession' => $userSession,
  				'ItsClassName' => '_TUR_CUOTAS_INF',
