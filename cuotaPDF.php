@@ -17,6 +17,8 @@ $data = array();
 $do_login = $client->ItsLogin($parametros);
 $error = $do_login->ItsLoginResult;
 if($error <> 1){
+    echo 'hola';
+    exit();
     $userSession = $do_login->UserSession;
     $pasajeroPDF = encriptado($_GET["pasajero"], 'd');
     $paramData = array('UserSession' => $userSession,
