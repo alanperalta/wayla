@@ -107,7 +107,7 @@ for($pagina = 1; $pagina <= $paginas ; $pagina++){
         $pdf->Cell(100, 4, $data['destino']);
         
         $pdf->SetXY(57, 65);
-        $pdf->CellFitScale(80, 4, $data['colegio']);
+        $pdf->CellFitScale(75, 4, $data['colegio']);
         $pdf->SetXY(155, 65);
         $pdf->Cell(60, 4, $data['division']);
         $pdf->SetXY(50, 70);
@@ -130,7 +130,7 @@ for($pagina = 1; $pagina <= $paginas ; $pagina++){
         $pdf->SetXY(34, 111);
         $pdf->Cell(60, 4, $data['cp']);
         $pdf->SetXY(80, 111);
-        $pdf->Cell(60, 4, $data['localidad']);
+        $pdf->CellFitScale(60, 4, $data['localidad']);
         $pdf->SetXY(160, 111);
         $pdf->Cell(60, 4, $data['tel']);
         $pdf->SetXY(57, 118);
@@ -143,7 +143,7 @@ for($pagina = 1; $pagina <= $paginas ; $pagina++){
         $pdf->SetXY(37, 204);
         $pdf->Cell(60, 4, $data['tel_RL']);
         $pdf->SetXY(160, 204);
-        $pdf->Cell(60, 4, $data['email_RL']);
+        $pdf->CellFitScale(55, 4, $data['email_RL']);
        
     }
 }
