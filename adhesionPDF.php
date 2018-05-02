@@ -143,7 +143,7 @@ for($pagina = 1; $pagina <= $paginas ; $pagina++){
         $pdf->SetXY(37, 204);
         $pdf->Cell(60, 4, $data['tel_RL']);
         $pdf->SetXY(160, 204);
-        $pdf->CellFitScale(55, 4, $data['email_RL']);
+        $pdf->CellFitScale(52, 4, $data['email_RL']);
        
     }
 }
