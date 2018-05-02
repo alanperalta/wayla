@@ -107,7 +107,7 @@ for($pagina = 1; $pagina <= $paginas ; $pagina++){
         $pdf->Cell(100, 4, $data['destino']);
         
         $pdf->SetXY(57, 65);
-        $pdf->Cell(80, 4, $data['colegio']);
+        $pdf->CellFitScale(80, 4, $data['colegio']);
         $pdf->SetXY(155, 65);
         $pdf->Cell(60, 4, $data['division']);
         $pdf->SetXY(50, 70);

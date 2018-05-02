@@ -153,7 +153,7 @@
                                                                             <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>')">Imprimir cup&oacute;n</button>
                                                                         <?php }else if($cuotaDetalle['ESTADO'] == 'I' || ($cuotaDetalle['ESTADO'] == 'H' && ($hoy > $vencimiento2) && $cuotaDetalle['COD_BAR'] != '')){?>
                                                                             <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                        <?php } else if($cuotaDetalle['COD_BAR'] == ''){?>
+                                                                        <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] <> 'P'){?>
                                                                             <div>Esta cuota solo se puede pagar personalmente o por transferencia bancaria</div>
                                                                         <?php }?>
                                                                         </div>
@@ -169,10 +169,10 @@
                                                                     <div class="row">
                                                                         <div class="col-xs-8 col-xs-offset-2 hidden-md hidden-lg div-imprimir">
                                                                          <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR']) {?>
-                                                                            <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']?>')">Imprimir cup&oacute;n</button>
+                                                                            <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']?>');">Imprimir cup&oacute;n</button>
                                                                         <?php }else if($cuotaDetalle['ESTADO'] == 'I' || ($cuotaDetalle['ESTADO'] == 'H' && ($hoy > $vencimiento2) && $cuotaDetalle['COD_BAR'] != '')){?>
                                                                             <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                        <?php } else if($cuotaDetalle['COD_BAR'] == ''){?>
+                                                                        <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] <> 'P'){?>
                                                                             <div>Esta cuota solo se puede pagar personalmente o por transferencia bancaria</div>
                                                                         <?php }?>
                                                                         </div>
