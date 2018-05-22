@@ -96,7 +96,7 @@
                                                 <input type="text" name="NOMBRE" id="NOMBRE" value="<?=(isset($_SESSION['NOMBRE']))?$_SESSION['NOMBRE']:''?>" tabindex="1" class="form-control" placeholder="Apellido y nombre" required>
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" name="NUM_DOC" id="NUM_DOC" value="<?=(isset($_SESSION['NUM_DOC']))?$_SESSION['NUM_DOC']:''?>" tabindex="1" class="form-control" placeholder="Nro. documento" onblur="validaDNI()" required title="Ingrese un documento v&aacute;lido" pattern="^\d{1,3}[.]?\d{3}[.]?\d{3}$">
+                                                <input type="text" name="NUM_DOC" id="NUM_DOC" value="<?=(isset($_SESSION['NUM_DOC']))?$_SESSION['NUM_DOC']:''?>" tabindex="1" class="form-control" placeholder="Nro. documento(sin puntos)" onblur="validaDNI()" required title="Ingrese un documento v&aacute;lido" pattern="^\d{7,9}$">
                                             </div>
                                             <div class="form-group">
                                                 <input type="text" name="FEC_NAC" placeholder="Fecha de nacimiento" class="form-control readonly" id="FEC_NAC" required="" value="<?=(isset($_SESSION['FEC_NAC']))?$_SESSION['FEC_NAC']:''?>">
@@ -144,7 +144,7 @@
                                                 <input type="text" name="NOMBRE_RL" id="NOMBRE_RL" value="<?=(isset($_SESSION['NOMBRE_RL']))?$_SESSION['NOMBRE_RL']:''?>" tabindex="1" class="form-control" placeholder="Apellido y nombre" required>
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" name="NUM_DOC_RL" id="NUM_DOC_RL" value="<?=(isset($_SESSION['NUM_DOC_RL']))?$_SESSION['NUM_DOC_RL']:''?>" tabindex="1" class="form-control" placeholder="Nro. documento" required title="Ingrese un documento v&aacute;lido" pattern="^\d{1,3}[.]?\d{3}[.]?\d{3}$">
+                                                <input type="text" name="NUM_DOC_RL" id="NUM_DOC_RL" value="<?=(isset($_SESSION['NUM_DOC_RL']))?$_SESSION['NUM_DOC_RL']:''?>" tabindex="1" class="form-control" placeholder="Nro. documento(sin puntos)" required title="Ingrese un documento v&aacute;lido" pattern="^\d{7,9}$">
                                             </div>
                                             <div class="form-group">
                                                 <input type="text" name="CALLE_RL" id="CALLE_RL" value="<?=(isset($_SESSION['CALLE_RL']))?$_SESSION['CALLE_RL']:''?>" tabindex="1" class="form-control" placeholder="Calle" required>
