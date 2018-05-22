@@ -38,10 +38,8 @@ $(function() {
             e.preventDefault();
         });
         
-        $( "#FECHA_DESC" ).datepicker({
-            altField: "#FEC_NAC",
+        $( "#FEC_NAC" ).datepicker({
             dateFormat: "dd/mm/yy",
-            altFormat: "yymmdd",
             changeMonth: true,
             changeYear: true,
             yearRange: "-100:+0"

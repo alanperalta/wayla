@@ -3,35 +3,17 @@ session_start();
 
 require_once('includes/fpdf/code128.php');
 require_once('includes/ConfigItrisWS.php');
-        
-$client = new SoapClient($ws);
-$parametros = array(
-      'DBName' => $db,
-      'UserName' => $user,
-      'UserPwd' => $password,
-      'LicType' => 'WS',
-      'UserSession' => ''
-  );
 
 $data = array( );
-$do_login = $client->ItsLogin($parametros);
-$error = $do_login->ItsLoginResult;
-if($error <> 1){
-    $userSession = $do_login->UserSession;
+$do_login = ItsLogin();
+if(!$do_login['error']){
+    $userSession = $do_login['usersession'];
     $pasajeroPDF = encriptado($_GET["pasajero"], 'd');
-    $paramData = array('UserSession' => $userSession,
- 				'ItsClassName' => '_TUR_CUOTAS_INF',
- 				'RecordCount' => 100,
- 				'SQLFilter' => "FK_TUR_CONTRATOS = '".$_GET['contrato']."' AND FK_TUR_PASAJEROS = ".$pasajeroPDF,
- 				'SQLSort' => 'CUOTA ASC'
-                    
-                            );
-    $get_dataCuotas = $client->ItsGetData($paramData);
-    if(!$get_dataCuotas->ItsGetDataResult) {
-        $getDataResult = simplexml_load_string($get_dataCuotas->XMLData);
-        if(count($getDataResult->ROWDATA->ROW) > 0){
+    $getDataResult = ItsGetData($userSession, '_TUR_CUOTAS_INF', '100', "FK_TUR_CONTRATOS = '".$_GET['contrato']."' AND FK_TUR_PASAJEROS = ".$pasajeroPDF, 'CUOTA ASC');
+    if(!$getDataResult['error']) {
+        if(count($getDataResult['data']) > 0){
             $i = 0;
-            foreach ($getDataResult->ROWDATA->ROW as $cuota) {
+            foreach ($getDataResult['data'] as $cuota) {
                 $data[$i]['numero'] = (string)$cuota['NUM_COM'];
                 $data[$i]['colegio'] = (string)$cuota['COLEGIO'];
                 $data[$i]['pasajero'] = (string)$cuota['Z_FK_TUR_PASAJEROS'];
@@ -46,11 +28,15 @@ if($error <> 1){
             }
         }else{
             echo 'Acceso incorrecto al sistema de cuotas. Vuelva a ingresar';
-            $client->ItsLogout(array('UserSession' => $userSession));
+            ItsLogout($userSession);
             exit();
         }
+    }else{
+        ItsLogout($userSession);
+        echo $getDataResult['message'];
+        exit();
     }
-    $client->ItsLogout(array('UserSession' => $userSession));
+    ItsLogout($userSession);
 }
 
 $pdf = new PDF_Code128();
@@ -92,11 +78,11 @@ foreach ($data as $cuota) {
         $pdf->Cell(50, 5, "COLEGIO:        ".utf8_decode($cuota['colegio']), 0, 2, 'L');
         $pdf->Cell(50, 5, utf8_decode(utf8_decode($cuota['pasajero'])), 0, 2, 'L');
         $pdf->SetFont('Arial', 'B', '12');
-        $pdf->Cell(50, 5, date('d/m/Y', strtotime($cuota['vencimiento']))."                                         $ ".number_format($cuota['importe'], 2, ",", "."), 0, 2, 'L');
+        $pdf->Cell(50, 5, $cuota['vencimiento']."                                         $ ".number_format($cuota['importe'], 2, ",", "."), 0, 2, 'L');
         $pdf->SetFont('Arial','',10);
         $pdf->Cell(50, 5, "2do. Vencimiento", 0, 2, 'L');     
-        $pdf->Cell(50, 5, date('d/m/Y', strtotime($cuota['vencimiento2']))."                                                        $ ".number_format($cuota['importe2'], 2, ",", "."), 0, 2, 'L');
-        $pdf->Cell(50, 5, "Concepto:                                                ".  utf8_decode(utf8_decode($cuota['concepto'])), 0, 2, 'L');
+        $pdf->Cell(50, 5, $cuota['vencimiento2']."                                                        $ ".number_format($cuota['importe2'], 2, ",", "."), 0, 2, 'L');
+        $pdf->Cell(50, 5, "Concepto:                                                ".  utf8_decode($cuota['concepto']), 0, 2, 'L');
 
     }
 

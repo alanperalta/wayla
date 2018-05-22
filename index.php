@@ -22,7 +22,7 @@
         <?php if (isset($_SESSION['msj']) && $_SESSION['msj'] != ''){?>
         <script type="text/javascript">
             $(document).ready(function(){
-                $.notify('<?=$_SESSION["msj"]?>',{
+                $.notify('<?=addslashes($_SESSION["msj"])?>',{
                     globalPosition: 'top left',
                     className: 'warm',
                     autoHide: false
@@ -99,8 +99,7 @@
                                                 <input type="text" name="NUM_DOC" id="NUM_DOC" value="<?=(isset($_SESSION['NUM_DOC']))?$_SESSION['NUM_DOC']:''?>" tabindex="1" class="form-control" placeholder="Nro. documento" onblur="validaDNI()" required title="Ingrese un documento v&aacute;lido" pattern="^\d{1,3}[.]?\d{3}[.]?\d{3}$">
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" name="FECHA_DESC" placeholder="Fecha de nacimiento" class="form-control readonly" id="FECHA_DESC" required="" value="<?=(isset($_SESSION['FECHA_DESC']))?$_SESSION['FECHA_DESC']:''?>">
-                                                <input type="hidden" name="FEC_NAC" id="FEC_NAC" value="<?=(isset($_SESSION['FEC_NAC']))?$_SESSION['FEC_NAC']:''?>">
+                                                <input type="text" name="FEC_NAC" placeholder="Fecha de nacimiento" class="form-control readonly" id="FEC_NAC" required="" value="<?=(isset($_SESSION['FECHA_DESC']))?$_SESSION['FEC_NAC']:''?>">
                                             </div>
                                             <div class="form-group">
                                                 <select name="SEXO" id="SEXO" tabindex="1" class="form-control" placeholder="Sexo" required>

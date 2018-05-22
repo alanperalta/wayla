@@ -1,13 +1,5 @@
 <?php
   require_once('includes/ConfigItrisWS.php');
-  $client = new SoapClient($ws);
-  $parametros = array(
-        'DBName' => $db,
-        'UserName' => $user,
-        'UserPwd' => $password,
-        'LicType' => 'WS',
-        'UserSession' => ''
-    );
   
     if(!isset($_POST['dni'])){
         $_SESSION['msj'] = 'Vuelva a ingresar su DNI';
@@ -17,15 +9,14 @@
     
     
   try{
-  $do_login = $client->ItsLogin($parametros);
+  $do_login = ItsLogin();
   }  catch (Exception $e){
       echo "Error en el sistema: ".$e->getMessage();
       exit();
   }
-  $userSession = $do_login->UserSession;
-  $error = $do_login->ItsLoginResult;
-    if($error <> 1){
+    if(!$do_login['error']){
         session_start();
+        $userSession = $do_login['usersession'];
         
         //Asigno cookies
         if(!empty($_POST["recordar"])) {
@@ -35,27 +26,13 @@
             setcookie ("dni", "", time()+ (10 * 365 * 24 * 60 * 60));
             setcookie ("recordar", "", time()+ (10 * 365 * 24 * 60 * 60));
 	}
-                        
-        $_SESSION['login'] = TRUE;
-        $_SESSION['user'] = $user;
-        $_SESSION['db'] = $db;
-        $_SESSION['password'] = $password;
-        $_SESSION['userSession'] = $do_login->UserSession;
         
-        $dni = number_format(str_replace('.', '', $_POST['dni']), 0, '', '.');
-        $paramData = array('UserSession' => $userSession,
- 				'ItsClassName' => '_TUR_PASAJEROS',
- 				'RecordCount' => 1,
- 				'SQLFilter' => "NUM_DOC = '".$dni."'",
- 				'SQLSort' => ''
-                    
-                );
-        $get_data = $client->ItsGetData($paramData);
-        if(!$get_data->ItsGetDataResult) {
-            $getDataResult = simplexml_load_string($get_data->XMLData);
+        $dni = str_replace('.', '', $_POST['dni']);
+        $getDataResult = ItsGetData($userSession, '_TUR_PASAJEROS', '1', "NUM_DOC='".$dni."'");
+        if(!$getDataResult['error']) {
             
-            if(count($getDataResult->ROWDATA->ROW) > 0) {
-                $pasajero = (string)$getDataResult->ROWDATA->ROW[0]['ID'];
+            if(count($getDataResult['data']) > 0) {
+                $pasajero = (string)$getDataResult['data'][0]['ID'];
                 $pasajeroPDF = encriptado($pasajero);
                 ?>
          <html>
@@ -81,21 +58,13 @@
                         </div>
                     </div>
                     <?php 
-                        $paramData = array('UserSession' => $userSession,
- 				'ItsClassName' => '_TUR_CUOTAS_INF',
- 				'RecordCount' => 100,
- 				'SQLFilter' => "FK_TUR_PASAJEROS = '".$pasajero."'",
- 				'SQLSort' => 'FK_TUR_CONTRATOS DESC, CUOTA ASC'
-                    
-                            );
-                        $get_dataCuotas = $client->ItsGetData($paramData);
-                        if(!$get_dataCuotas->ItsGetDataResult) {
-                            $getDataResultCuotas = simplexml_load_string($get_dataCuotas->XMLData);
+                        $getDataResultCuotas = ItsGetData($userSession, '_TUR_CUOTAS_INF', '100', "FK_TUR_PASAJEROS='".$pasajero."'", 'FK_TUR_CONTRATOS DESC, CUOTA ASC');
+                        if(!$getDataResultCuotas['error']) {
                             $contratoActual = '';
                             $i = 1;
-                            $listaCuotas = $getDataResultCuotas->ROWDATA;
-                            if(count($getDataResultCuotas->ROWDATA->ROW) > 0){
-                                foreach ($getDataResultCuotas->ROWDATA->ROW as $cuota) {
+                            $listaCuotas = $getDataResultCuotas['data'];
+                            if(count($getDataResultCuotas['data']) > 0){
+                                foreach ($getDataResultCuotas['data'] as $cuota) {
                                     if($contratoActual != (string)$cuota['FK_TUR_CONTRATOS']){?>
                                         <div class="panel panel-default panel-cuotas">
                                             <div class="panel-heading">
@@ -111,14 +80,14 @@
                                                 </div>
                                             </div>   
                                             <ul class="list-group">
-                                      <?php foreach ($listaCuotas->ROW as $cuotaDetalle) {
+                                      <?php foreach ($listaCuotas as $cuotaDetalle) {
                                                 $hoy = new DateTime();
-                                                $vencimiento2 = new DateTime(date('Y-m-d', strtotime($cuotaDetalle['FEC_VEN_2'])));
+                                                $vencimiento2 = new DateTime(date('Y-m-d', strtotime(str_replace("/", "-", $cuotaDetalle['FEC_VEN_2']))));
                                                 if((string)$cuotaDetalle['FK_TUR_CONTRATOS'] == (string)$cuota['FK_TUR_CONTRATOS']){?>
                                                     <li class="list-group-item <?=($cuotaDetalle['ESTADO'] == 'P')?'lista-verde':''?>">
                                                         <div class="row toggle" id="dropdown-detail-<?=$i?>" data-toggle="detail-<?=$i?>">
                                                             <div class="col-xs-10">
-                                                                <?="Cuota: ".$cuotaDetalle['CUOTA']." - Vencimiento: ".date('d/m/Y', strtotime($cuotaDetalle['FEC_VEN_1']))?>
+                                                                <?="Cuota: ".$cuotaDetalle['CUOTA']." - Vencimiento: ".$cuotaDetalle['FEC_VEN_1']?>
                                                             </div>
                                                             <div class="col-xs-2"><i class="fa fa-chevron-down pull-right"></i></div>
                                                         </div>
@@ -138,7 +107,7 @@
                                                                         2do Vencimiento:
                                                                     </div>
                                                                     <div class="col-xs-6 col-md-4">
-                                                                        <?=date('d/m/Y', strtotime($cuotaDetalle['FEC_VEN_2']))?>
+                                                                        <?=$cuotaDetalle['FEC_VEN_2']?>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -192,27 +161,27 @@
                             <?php }
                             //include 'includes/footer.php';
                         }else {
-                            $client->ItsLogout(array('UserSession' => $userSession));
-                            $_SESSION['msj'] = ItsError($client, $userSession);
+                            ItsLogout($userSession);
+                            $_SESSION['msj'] = $getDataResultCuotas['message'];
                             header('location: index.php');
                         } ?>
                 </div>
             </body>
         </html>
 <?php
-            $client->ItsLogout(array('UserSession' => $userSession));
+            ItsLogout($userSession);
             }else{
-                $client->ItsLogout(array('UserSession' => $userSession));
+                ItsLogout($userSession);
                 $_SESSION['msj'] = 'DNI no asociado a una cuenta, debe registrarse primero';
                 header('location: index.php');
             }
         } else {
-                $client->ItsLogout(array('UserSession' => $userSession));
-                $_SESSION['msj'] = ItsError($client, $userSession);
+                ItsLogout($userSession);
+                $_SESSION['msj'] = $getDataResult['message'];
                 header('location: index.php');
         }
     }else{
-        $_SESSION['msj'] = ItsError($client, $userSession);
+        $_SESSION['msj'] = $do_login['message'];
         header('location: index.php');
     }
         

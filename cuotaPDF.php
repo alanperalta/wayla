@@ -3,50 +3,32 @@ session_start();
 
 require_once('includes/fpdf/code128.php');
 require_once('includes/ConfigItrisWS.php');
-        
-$client = new SoapClient($ws);
-$parametros = array(
-      'DBName' => $db,
-      'UserName' => $user,
-      'UserPwd' => $password,
-      'LicType' => 'WS',
-      'UserSession' => ''
-  );
 
 $data = array();
-$do_login = $client->ItsLogin($parametros);
-$error = $do_login->ItsLoginResult;
-if($error <> 1){
-    $userSession = $do_login->UserSession;
+$do_login = ItsLogin();
+if(!$do_login['error']){
+    $userSession = $do_login['usersession'];
     $pasajeroPDF = encriptado($_GET["pasajero"], 'd');
-    $paramData = array('UserSession' => $userSession,
- 				'ItsClassName' => '_TUR_CUOTAS_INF',
- 				'RecordCount' => 1,
- 				'SQLFilter' => "NUM_COM = '".$_GET['numero']."' AND FK_TUR_PASAJEROS = ".$pasajeroPDF,
- 				'SQLSort' => ''
-                    
-                            );
-    $get_dataCuotas = $client->ItsGetData($paramData);
-    if(!$get_dataCuotas->ItsGetDataResult) {
-        $getDataResult = simplexml_load_string($get_dataCuotas->XMLData);
-        if(count($getDataResult->ROWDATA->ROW) > 0){
-            $data['numero'] = (string)$getDataResult->ROWDATA->ROW[0]['NUM_COM'];
-            $data['colegio'] = (string)$getDataResult->ROWDATA->ROW[0]['COLEGIO'];
-            $data['pasajero'] = (string)$getDataResult->ROWDATA->ROW[0]['Z_FK_TUR_PASAJEROS'];
-            $data['vencimiento'] = (string)$getDataResult->ROWDATA->ROW[0]['FEC_VEN_1'];
-            $data['importe'] = (double)$getDataResult->ROWDATA->ROW[0]['IMPORTE'];
-            $data['vencimiento2'] = (string)$getDataResult->ROWDATA->ROW[0]['FEC_VEN_2'];
-            $data['importe2'] = (double)$getDataResult->ROWDATA->ROW[0]['IMP_CON_REC'];
-            $data['concepto'] = (string)$getDataResult->ROWDATA->ROW[0]['Z_TIPO'];
-            $data['cod_bar'] = (string)$getDataResult->ROWDATA->ROW[0]['COD_BAR'];
-            $data['cuota'] = (string)$getDataResult->ROWDATA->ROW[0]['CUOTA'];
+    $getDataResult = ItsGetData($userSession, '_TUR_CUOTAS_INF', '1', "NUM_COM='".$_GET['numero']."' AND FK_TUR_PASAJEROS=".$pasajeroPDF);
+    if(!$getDataResult['error']) {
+        if(count($getDataResult['data']) > 0){
+            $data['numero'] = (string)$getDataResult['data'][0]['NUM_COM'];
+            $data['colegio'] = (string)$getDataResult['data'][0]['COLEGIO'];
+            $data['pasajero'] = (string)$getDataResult['data'][0]['Z_FK_TUR_PASAJEROS'];
+            $data['vencimiento'] = (string)$getDataResult['data'][0]['FEC_VEN_1'];
+            $data['importe'] = (double)$getDataResult['data'][0]['IMPORTE'];
+            $data['vencimiento2'] = (string)$getDataResult['data'][0]['FEC_VEN_2'];
+            $data['importe2'] = (double)$getDataResult['data'][0]['IMP_CON_REC'];
+            $data['concepto'] = (string)$getDataResult['data'][0]['Z_TIPO'];
+            $data['cod_bar'] = (string)$getDataResult['data'][0]['COD_BAR'];
+            $data['cuota'] = (string)$getDataResult['data'][0]['CUOTA'];
         }else{
             echo 'Acceso incorrecto al sistema de cuotas. Vuelva a ingresar';
-            $client->ItsLogout(array('UserSession' => $userSession));
+            ItsLogout($userSession);
             exit();
         }
     }
-    $client->ItsLogout(array('UserSession' => $userSession));
+    ItsLogout($userSession);
 }
 
 $pdf = new PDF_Code128();
@@ -83,10 +65,10 @@ for ($i = 0; $i < 2; $i++) {
     $pdf->Cell(50, 6, "COLEGIO:        ".utf8_decode($data['colegio']), 0, 2, 'L');
     $pdf->Cell(50, 6, utf8_decode(utf8_decode($data['pasajero'])), 0, 2, 'L');
     $pdf->SetFont('Arial', 'B', '12');
-    $pdf->Cell(50, 6, date('d/m/Y', strtotime($data['vencimiento']))."                                         $ ".number_format($data['importe'], 2, ",", "."), 0, 2, 'L');
+    $pdf->Cell(50, 6, $data['vencimiento']."                                         $ ".number_format($data['importe'], 2, ",", "."), 0, 2, 'L');
     $pdf->SetFont('Arial','',10);
     $pdf->Cell(50, 6, "2do. Vencimiento", 0, 2, 'L');     
-    $pdf->Cell(50, 6, date('d/m/Y', strtotime($data['vencimiento2']))."                                                        $ ".number_format($data['importe2'], 2, ",", "."), 0, 2, 'L');
+    $pdf->Cell(50, 6, $data['vencimiento2']."                                                        $ ".number_format($data['importe2'], 2, ",", "."), 0, 2, 'L');
     $pdf->Cell(50, 6, "Concepto:                                                 ".utf8_decode(utf8_decode($data['concepto'])), 0, 2, 'L');
 
 }
