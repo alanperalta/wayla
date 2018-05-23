@@ -9,7 +9,7 @@ $do_login = ItsLogin();
 if(!$do_login['error']){
     $userSession = $do_login['usersession'];
     $pasajeroPDF = encriptado($_GET["pasajero"], 'd');
-    $getDataResult = ItsGetData($userSession, '_TUR_CUOTAS_INF', '100', "FK_TUR_CONTRATOS = '".$_GET['contrato']."' AND FK_TUR_PASAJEROS = ".$pasajeroPDF, 'CUOTA ASC');
+    $getDataResult = ItsGetData($userSession, '_TUR_CUOTAS_INF', '100', "FK_TUR_CONTRATOS = '".$_GET['contrato']."' AND TIPO = 'N' AND SALDO > 0 AND FK_TUR_PASAJEROS = ".$pasajeroPDF, 'CUOTA ASC');
     if(!$getDataResult['error']) {
         if(count($getDataResult['data']) > 0){
             $i = 0;
@@ -27,7 +27,7 @@ if(!$do_login['error']){
                 $i++;
             }
         }else{
-            echo 'Acceso incorrecto al sistema de cuotas. Vuelva a ingresar';
+            echo 'No existen cuotas del plan para abonar';
             ItsLogout($userSession);
             exit();
         }

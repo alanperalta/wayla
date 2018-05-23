@@ -60,7 +60,7 @@
                                             <input type="text" name="dni" id="dni" tabindex="1" class="form-control" placeholder="DNI del pasajero" value="<?=(isset($_COOKIE['dni']))?$_COOKIE['dni']:''?>" required title="Ingrese un documento v&aacute;lido" pattern="^\d{1,3}[.]?\d{3}[.]?\d{3}$">
                                         </div>
                                         <div class="form-group text-center">
-                                            <input type="checkbox" tabindex="3" class="" name="recordar" id="recordar" <?=(isset($_COOKIE['recordar']))?'checked':''?>>
+                                            <input type="checkbox" tabindex="3" class="" name="recordar" id="recordar" <?=(isset($_COOKIE['dni']))?'checked':''?>>
                                             <label for="recordar"> Recordarme</label>
                                         </div>
                                         <div class="form-group">
