@@ -94,3 +94,52 @@
             
             return json_decode($result, TRUE);
         }
+        
+        function ItsModifyData($usersession, $class, $id, $data){
+            $url = $GLOBALS['ws']."/class";
+            $ch = curl_init($url);
+            $datos = array(
+                'usersession' => $usersession,
+                'class' => $class,
+                'id' => $id,
+                'data' => array($data)
+            );
+            $json = json_encode($datos);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+
+            curl_close($ch);
+            
+            return json_decode($result, TRUE);
+        }
+        
+        function ItsDeleteData($usersession, $class, $id){
+            $url = $GLOBALS['ws']."/class";
+            $ch = curl_init($url);
+            $datos = array(
+                'usersession' => $usersession,
+                'class' => $class,
+                'id' => $id
+            );
+            $json = json_encode($datos);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+
+            curl_close($ch);
+            
+            return json_decode($result, TRUE);
+        }
+        
+        //Solo funciona para clases con identificador con nombre ID
+        function ItsDeleteDataBy($usersession, $where){
+            $getData = ItsGetData($usersession, $class, "1", $where);
+            if(isset($getData['data']['ID'])){
+                return ItsDeleteData($usersession, $class, $getData['data']['ID']);
+            }else
+            return false;
+        }
