@@ -16,7 +16,7 @@ if(!$do_login['error']){
             $data['colegio'] = (string)$getDataResult['data'][0]['COLEGIO'];
             $data['pasajero'] = (string)$getDataResult['data'][0]['Z_FK_TUR_PASAJEROS'];
             $data['vencimiento'] = (string)$getDataResult['data'][0]['FEC_VEN_1'];
-            $data['importe'] = (double)$getDataResult['data'][0]['IMPORTE'];
+            $data['importe'] = (double)$getDataResult['data'][0]['IMP_PEN'];
             $data['vencimiento2'] = (string)$getDataResult['data'][0]['FEC_VEN_2'];
             $data['importe2'] = (double)$getDataResult['data'][0]['IMP_CON_REC'];
             $data['concepto'] = (string)$getDataResult['data'][0]['Z_TIPO'];
@@ -63,7 +63,7 @@ for ($i = 0; $i < 2; $i++) {
     $pdf->Cell(50, 6, utf8_decode("TALON DE PAGO Nº").":         ".$data['numero'], 0, 2, 'L');
     $pdf->SetFont('Arial','',10);
     $pdf->Cell(50, 6, "COLEGIO:        ".utf8_decode($data['colegio']), 0, 2, 'L');
-    $pdf->Cell(50, 6, utf8_decode(utf8_decode($data['pasajero'])), 0, 2, 'L');
+    $pdf->Cell(50, 6, utf8_decode($data['pasajero']), 0, 2, 'L');
     $pdf->SetFont('Arial', 'B', '12');
     $pdf->Cell(50, 6, $data['vencimiento']."                                         $ ".number_format($data['importe'], 2, ",", "."), 0, 2, 'L');
     $pdf->SetFont('Arial','',10);

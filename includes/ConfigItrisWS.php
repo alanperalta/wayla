@@ -135,11 +135,15 @@
             return json_decode($result, TRUE);
         }
         
-        //Solo funciona para clases con identificador con nombre ID
-        function ItsDeleteDataBy($usersession, $where){
-            $getData = ItsGetData($usersession, $class, "1", $where);
-            if(isset($getData['data']['ID'])){
-                return ItsDeleteData($usersession, $class, $getData['data']['ID']);
-            }else
-            return false;
+        function ItsDeleteDataBy($usersession, $class, $where){
+            $getData = ItsGetData($usersession, $class, '', $where);
+            if(!$getData['error']){
+                foreach ($getData['data'] as $registro) {
+                    $delete = ItsDeleteData($usersession, $class, (string)$registro['ID']);
+                    if($delete['error']){
+                        return $delete;
+                    }
+                }
+            }
+            return $getData;
         }

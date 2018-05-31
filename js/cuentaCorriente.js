@@ -18,3 +18,15 @@ function descargarChequera(contrato, pasajero){
 function descargarFormulario(pasajero){
     window.open("adhesionPDF.php?pasajero="+pasajero);
 }
+
+function infoCuota(){
+    $('#infoCuota').dialog({
+            width: 'auto',
+            maxWidth: 600,
+            height: 'auto',
+            modal: true,
+            fluid: true,
+            resizable: false,
+            draggable: false
+        });
+}

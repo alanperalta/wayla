@@ -18,7 +18,7 @@ if(!$do_login['error']){
                 $data[$i]['colegio'] = (string)$cuota['COLEGIO'];
                 $data[$i]['pasajero'] = (string)$cuota['Z_FK_TUR_PASAJEROS'];
                 $data[$i]['vencimiento'] = (string)$cuota['FEC_VEN_1'];
-                $data[$i]['importe'] = (double)$cuota['IMPORTE'];
+                $data[$i]['importe'] = (double)$cuota['IMP_PEN'];
                 $data[$i]['vencimiento2'] = (string)$cuota['FEC_VEN_2'];
                 $data[$i]['importe2'] = (double)$cuota['IMP_CON_REC'];
                 $data[$i]['concepto'] = (string)$cuota['Z_TIPO'];
@@ -76,7 +76,7 @@ foreach ($data as $cuota) {
         $pdf->Cell(50, 5, utf8_decode("TALON DE PAGO Nº").":         ".$cuota['numero'], 0, 2, 'L');
         $pdf->SetFont('Arial','',10);
         $pdf->Cell(50, 5, "COLEGIO:        ".utf8_decode($cuota['colegio']), 0, 2, 'L');
-        $pdf->Cell(50, 5, utf8_decode(utf8_decode($cuota['pasajero'])), 0, 2, 'L');
+        $pdf->Cell(50, 5, utf8_decode($cuota['pasajero']), 0, 2, 'L');
         $pdf->SetFont('Arial', 'B', '12');
         $pdf->Cell(50, 5, $cuota['vencimiento']."                                         $ ".number_format($cuota['importe'], 2, ",", "."), 0, 2, 'L');
         $pdf->SetFont('Arial','',10);

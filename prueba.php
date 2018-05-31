@@ -7,7 +7,7 @@
     );
     $login = ItsLogin();
 //    $result = ItsModifyData($login['usersession'], 'ERP_PAISES', "1", $data);
-    $result = ItsDeleteData($login['usersession'], 'ERP_PAISES', "886");
+    $result = ItsDeleteDataBy($login['usersession'], 'ERP_PAISES', "ID in ('86', '852')");
 //    ItsLogout($login['usersession']);
     echo $login['usersession'];
     echo $result['message'];

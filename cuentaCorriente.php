@@ -40,6 +40,9 @@
                 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
                 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
                 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+                <script src="includes/jQuery-ui/jquery-ui.min.js"></script>
+                <link href="includes/jQuery-ui/jquery-ui.min.css" rel="stylesheet">
+                <link href="includes/jQuery-ui/jquery-ui.theme.min.css" rel="stylesheet">
                 <script src="js/cuentaCorriente.js"></script>
                 <link href="css/cuentaCorriente.css" rel="stylesheet">
                 <link href="css/footer.css" rel="stylesheet">
@@ -120,8 +123,8 @@
                                                                         <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>')">Imprimir cup&oacute;n</button>
                                                                     <?php }else if($cuotaDetalle['ESTADO'] == 'I' || ($cuotaDetalle['ESTADO'] == 'H' && ($hoy > $vencimiento2) && $cuotaDetalle['COD_BAR'] != '')){?>
                                                                         <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                    <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] <> 'P'){?>
-                                                                        <div>Esta cuota solo se puede pagar personalmente o por transferencia bancaria</div>
+                                                                    <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] == 'H'){?>
+                                                                        <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
                                                                     <?php }?>
                                                                     </div>
                                                                 </div>
@@ -147,11 +150,11 @@
                                                                     <div class="row">
                                                                         <div class="col-xs-8 col-xs-offset-2 hidden-md hidden-lg div-imprimir">
                                                                          <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR']) {?>
-                                                                            <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']?>');">Imprimir cup&oacute;n</button>
+                                                                            <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>');">Imprimir cup&oacute;n</button>
                                                                         <?php }else if($cuotaDetalle['ESTADO'] == 'I' || ($cuotaDetalle['ESTADO'] == 'H' && ($hoy > $vencimiento2) && $cuotaDetalle['COD_BAR'] != '')){?>
                                                                             <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                        <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] <> 'P'){?>
-                                                                            <div>Esta cuota solo se puede pagar personalmente o por transferencia bancaria</div>
+                                                                        <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] == 'H'){?>
+                                                                            <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
                                                                         <?php }?>
                                                                         </div>
                                                                     </div>
@@ -174,6 +177,34 @@
                             $_SESSION['msj'] = $getDataResultCuotas['message'];
                             header('location: index.php');
                         } ?>
+                </div>
+                
+                <div id="infoCuota" title="Info de pago" style="display:none">
+                    <p>
+                        Abonar mediante transferencia bancaria</br>
+
+                        Banco Galicia</br>
+
+                        Cta. Cte. N° 1447-8186-3</br>
+
+                        CBU 0070186620000001447839</br>
+
+                        Banco Santander</br>
+
+                        Cta. Cte. N° 523-16/1</br>
+
+                        CBU 0720523120000000001618</br>
+
+                        Titular: Wayla Turismo SRL</br>
+
+                        Cuit: 30-71509621-4</br>
+
+                        Enviar comprobante: pagos@waylaturismo.com.ar</br>
+
+                        Indicando pasajero y colegio para su acreditación.</br>
+
+                        Muchas gracias
+                    </p>
                 </div>
             </body>
         </html>
