@@ -5,7 +5,7 @@ session_start();
 if(isset($_SESSION['userSession'])) {
 
     $userSession = $_SESSION['userSession'];
-    $getDataResult = ItsGetData($userSession, 'ERP_LOCALIDADES', '20', "DESCRIPCION LIKE '%".$_POST['clave']."%' OR _ALIAS LIKE '%".$_POST['clave']."%'", 'DESCRIPCION ASC');
+    $getDataResult = ItsGetData($userSession, 'ERP_LOCALIDADES', '40', "DESCRIPCION LIKE '%".$_POST['clave']."%' OR _ALIAS LIKE '%".$_POST['clave']."%'", 'DESCRIPCION ASC');
     if(!$getDataResult['error']) {
         $data = array();
         
