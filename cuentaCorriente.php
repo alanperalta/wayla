@@ -85,7 +85,7 @@
                                                 $hoy = new DateTime(date('Y-m-d'));
                                                 $vencimiento2 = new DateTime(date('Y-m-d', strtotime(str_replace("/", "-", $cuotaDetalle['FEC_VEN_2']))));
                                                 //Regeneracion de 2do vencimiento
-                                                if($cuotaDetalle['ESTADO'] == 'H' && $hoy > $vencimiento2){
+                                                if($cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['TIPO'] == 'N' && $hoy > $vencimiento2){
                                                     $data = array(
                                                         'FEC_VEN_2' => date('d/m/Y')
                                                     );
@@ -144,7 +144,7 @@
                                                                         <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>')">Imprimir cup&oacute;n</button>
                                                                     <?php }else if($cuotaDetalle['ESTADO'] == 'I'){?>
                                                                         <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                    <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] == 'H'){?>
+                                                                    <?php } else if(($cuotaDetalle['COD_BAR'] == '' || $hoy > $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H'){?>
                                                                         <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
                                                                     <?php }?>
                                                                     </div>
@@ -174,7 +174,7 @@
                                                                             <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>');">Imprimir cup&oacute;n</button>
                                                                         <?php }else if($cuotaDetalle['ESTADO'] == 'I'){?>
                                                                             <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                        <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] == 'H'){?>
+                                                                        <?php } else if(($cuotaDetalle['COD_BAR'] == '' || $hoy > $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H'){?>
                                                                             <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
                                                                         <?php }?>
                                                                         </div>
