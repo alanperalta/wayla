@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <?php 
-                        $getDataResultCuotas = ItsGetData($userSession, '_TUR_CUOTAS_INF', '100', "FK_TUR_PASAJEROS='".$pasajero."'", 'FK_TUR_CONTRATOS DESC, FEC_VEN_1 ASC');
+                        $getDataResultCuotas = ItsGetData($userSession, '_TUR_CUOTAS_INF', '100', "FK_TUR_PASAJEROS='".$pasajero."' AND NOT (TIPO = 'D' AND DIF_USD <> 0)", 'FK_TUR_CONTRATOS DESC, FEC_VEN_1 ASC');
                         if(!$getDataResultCuotas['error']) {
                             $contratoActual = '';
                             $i = 1;
@@ -84,6 +84,17 @@
                                       <?php foreach ($listaCuotas as $cuotaDetalle) {
                                                 $hoy = new DateTime(date('Y-m-d'));
                                                 $vencimiento2 = new DateTime(date('Y-m-d', strtotime(str_replace("/", "-", $cuotaDetalle['FEC_VEN_2']))));
+                                                //Regeneracion de 2do vencimiento
+                                                if($cuotaDetalle['ESTADO'] == 'H' && $hoy > $vencimiento2){
+                                                    $data = array(
+                                                        'FEC_VEN_2' => date('d/m/Y')
+                                                    );
+                                                    $resultModify = ItsModifyData($userSession, '_TUR_CUOTAS', $cuotaDetalle['ID'], $data);
+                                                    if(!$resultModify['error']){
+                                                        $cuotaDetalle['FEC_VEN_2'] = date('d/m/Y');
+                                                        $vencimiento2 = new DateTime(date('Y-m-d'));
+                                                    }
+                                                }
                                                 if((string)$cuotaDetalle['FK_TUR_CONTRATOS'] == (string)$cuota['FK_TUR_CONTRATOS']){?>
                                                     <li class="list-group-item <?=($cuotaDetalle['ESTADO'] == 'P')?'lista-verde':''?>">
                                                         <div class="row toggle" id="dropdown-detail-<?=$i?>" data-toggle="detail-<?=$i?>">
@@ -95,6 +106,16 @@
                                                         <div id="detail-<?=$i?>">
                                                             <hr></hr>
                                                             <div class="container">
+                                                              <?php if($cuotaDetalle['ESTADO'] == 'P'){ ?>
+                                                                <div class="row cuota-saldo">
+                                                                    <div class="col-xs-6 col-md-4">
+                                                                        Total abonado:
+                                                                    </div>
+                                                                    <div class="col-xs-6 col-md-4">
+                                                                        <?="$ ".$cuotaDetalle['NETO']?>
+                                                                    </div>
+                                                                </div>
+                                                              <?php } else{?>
                                                                 <div class="row">
                                                                     <div class="col-xs-6 col-md-4">
                                                                         Importe:
@@ -121,7 +142,7 @@
                                                                     <div class="col-md-2 hidden-xs hidden-sm">
                                                                     <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR'] != '') {?>
                                                                         <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>')">Imprimir cup&oacute;n</button>
-                                                                    <?php }else if($cuotaDetalle['ESTADO'] == 'I' || ($cuotaDetalle['ESTADO'] == 'H' && ($hoy > $vencimiento2) && $cuotaDetalle['COD_BAR'] != '')){?>
+                                                                    <?php }else if($cuotaDetalle['ESTADO'] == 'I'){?>
                                                                         <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
                                                                     <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] == 'H'){?>
                                                                         <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
@@ -151,13 +172,14 @@
                                                                         <div class="col-xs-8 col-xs-offset-2 hidden-md hidden-lg div-imprimir">
                                                                          <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR']) {?>
                                                                             <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>');">Imprimir cup&oacute;n</button>
-                                                                        <?php }else if($cuotaDetalle['ESTADO'] == 'I' || ($cuotaDetalle['ESTADO'] == 'H' && ($hoy > $vencimiento2) && $cuotaDetalle['COD_BAR'] != '')){?>
+                                                                        <?php }else if($cuotaDetalle['ESTADO'] == 'I'){?>
                                                                             <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
                                                                         <?php } else if($cuotaDetalle['COD_BAR'] == '' && $cuotaDetalle['ESTADO'] == 'H'){?>
                                                                             <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
                                                                         <?php }?>
                                                                         </div>
                                                                     </div>
+                                                              <?php }?>
                                                             </div>
                                                         </div>
                                                     </li>
