@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <?php 
-                        $getDataResultCuotas = ItsGetData($userSession, '_TUR_CUOTAS_INF', '100', "FK_TUR_PASAJEROS='".$pasajero."' AND NOT (TIPO = 'D' AND DIF_USD <> 0)", 'FK_TUR_CONTRATOS DESC, FEC_VEN_1 ASC');
+                        $getDataResultCuotas = ItsGetData($userSession, '_TUR_CUOTAS_WEB', '100', "FK_TUR_PASAJEROS='".$pasajero."' AND NOT (TIPO = 'D' AND DIF_USD <> 0)", 'FK_TUR_CONTRATOS DESC, CUOTA_ORDEN ASC');
                         if(!$getDataResultCuotas['error']) {
                             $contratoActual = '';
                             $i = 1;
