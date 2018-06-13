@@ -55,7 +55,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-offset-8 col-md-4 formularioAdhesion">
-                            <button id="descargarFormulario" class="btn" onclick="descargarFormulario('<?=$pasajeroPDF?>');">Descargar Formulario de adhesi&oacuten</button>
+                            <button id="descargarFormulario" class="btn" onclick="terminos('<?=$pasajeroPDF?>');">Descargar Formulario de adhesi&oacuten</button>
                         </div>
                     </div>
                     <?php 
@@ -226,6 +226,19 @@
                         Indicando pasajero y colegio para su acreditación.</br>
 
                         Muchas gracias
+                    </p>
+                </div>
+                <div id="terminos" title="T&eacute;rminos y Condiciones" style="display:none">
+                    <p>
+                        Estimados padres:</br></br>
+
+                       Informamos a Ud. que la carga de los siguientes datos debe ser FIDEDIGNA, EXACTA Y VERAZ</br>
+
+                       dado que la misma tiene carácter de Declaración jurada y será responsabilidad exclusiva de</br>
+
+                       cada pasajero los datos allí insertos.</br></br>
+                       
+                       Al aceptar, Declaro que HE leído y acepto los términos y condiciones de Wayla Turismo SRL.</br>
                     </p>
                 </div>
             </body>
