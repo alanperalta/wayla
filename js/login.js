@@ -223,3 +223,24 @@ function ingresar(){
         $("#login-form").submit();
     }
 }
+
+function terminos(event){
+    $('#terminos').dialog({
+            width: 'auto',
+            maxWidth: 600,
+            height: 'auto',
+            modal: true,
+            fluid: true,
+            resizable: false,
+            draggable: false,
+           buttons: {
+        "Acepto": function() {
+          validaContrato(event);
+           $( this ).dialog( "close" );
+        },
+        "No acepto": function() {
+          $( this ).dialog( "close" );
+        }
+      }
+        });
+}

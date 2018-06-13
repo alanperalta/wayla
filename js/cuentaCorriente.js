@@ -30,23 +30,3 @@ function infoCuota(){
             draggable: false
         });
 }        
-function terminos(pasajero){
-    $('#terminos').dialog({
-            width: 'auto',
-            maxWidth: 600,
-            height: 'auto',
-            modal: true,
-            fluid: true,
-            resizable: false,
-            draggable: false,
-           buttons: {
-        "Acepto": function() {
-          descargarFormulario(pasajero);
-           $( this ).dialog( "close" );
-        },
-        "No acepto": function() {
-          $( this ).dialog( "close" );
-        }
-      }
-        });
-}

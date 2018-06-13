@@ -84,7 +84,20 @@
                                             <input type="text" name="CLAVE_DESC" id="CLAVE_DESC" tabindex="1" class="form-control" placeholder="Clave de verificaci&oacute;n" onkeypress="capturaTecla(event);" required autocomplete="off">
                                         </div>
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <button name="btn-validar" id="btn-validar" tabindex="4" class="form-control btn btn-validar" onclick="validaContrato(event);">Validar contrato</button>
+                                            <button name="btn-validar" id="btn-validar" tabindex="4" class="form-control btn btn-validar" onclick="terminos(event);">Validar contrato</button>
+                                            <div id="terminos" title="T&eacute;rminos y Condiciones" style="display:none">
+                                                <p>
+                                                    Estimados padres:</br></br>
+
+                                                   Informamos a Ud. que la carga de los siguientes datos debe ser FIDEDIGNA, EXACTA Y VERAZ</br>
+
+                                                   dado que la misma tiene carácter de Declaración jurada y será responsabilidad exclusiva de</br>
+
+                                                   cada pasajero los datos allí insertos.</br></br>
+
+                                                   Al aceptar, Declaro que HE leído y acepto los términos y condiciones de Wayla Turismo SRL.</br>
+                                                </p>
+                                            </div>
                                         </div>
                                         <div id="campos-registro" style="display:none">
                                             <div class="row">

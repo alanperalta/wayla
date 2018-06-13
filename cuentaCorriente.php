@@ -55,7 +55,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-offset-8 col-md-4 formularioAdhesion">
-                            <button id="descargarFormulario" class="btn" onclick="terminos('<?=$pasajeroPDF?>');">Descargar Formulario de adhesi&oacuten</button>
+                            <button id="descargarFormulario" class="btn" onclick="descargarFormulario('<?=$pasajeroPDF?>');">Descargar Formulario de adhesi&oacuten</button>
                         </div>
                     </div>
                     <?php 
