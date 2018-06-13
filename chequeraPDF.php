@@ -16,7 +16,7 @@ if(!$do_login['error']){
             foreach ($getDataResult['data'] as $cuota) {
                 $data[$i]['numero'] = (string)$cuota['NUM_COM'];
                 $data[$i]['colegio'] = (string)$cuota['COLEGIO'];
-                $data[$i]['pasajero'] = (string)$cuota['Z_FK_TUR_PASAJEROS'];
+                $data[$i]['pasajero'] = (string)$cuota['NOMBRE'];
                 $data[$i]['vencimiento'] = (string)$cuota['FEC_VEN_1'];
                 $data[$i]['importe'] = (double)$cuota['IMP_PEN'];
                 $data[$i]['vencimiento2'] = (string)$cuota['FEC_VEN_2'];

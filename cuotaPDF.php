@@ -14,7 +14,7 @@ if(!$do_login['error']){
         if(count($getDataResult['data']) > 0){
             $data['numero'] = (string)$getDataResult['data'][0]['NUM_COM'];
             $data['colegio'] = (string)$getDataResult['data'][0]['COLEGIO'];
-            $data['pasajero'] = (string)$getDataResult['data'][0]['Z_FK_TUR_PASAJEROS'];
+            $data['pasajero'] = (string)$getDataResult['data'][0]['NOMBRE'];
             $data['vencimiento'] = (string)$getDataResult['data'][0]['FEC_VEN_1'];
             $data['importe'] = (double)$getDataResult['data'][0]['IMP_PEN'];
             $data['vencimiento2'] = (string)$getDataResult['data'][0]['FEC_VEN_2'];
