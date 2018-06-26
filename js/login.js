@@ -50,7 +50,7 @@ $(function() {
 //Valido contrato apretando enter 
 function capturaTecla(event){
     if(event.which === 13){
-        validaContrato(event);
+        terminos(event);
     }
 }
 
@@ -230,7 +230,6 @@ function terminos(event){
             maxWidth: 600,
             height: 'auto',
             modal: true,
-            fluid: true,
             resizable: false,
             draggable: false,
            buttons: {
