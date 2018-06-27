@@ -225,6 +225,7 @@ function ingresar(){
 }
 
 function terminos(event){
+    event.preventDefault();
     $('#terminos').dialog({
             width: 'auto',
             maxWidth: 600,
