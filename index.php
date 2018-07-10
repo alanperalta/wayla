@@ -150,7 +150,7 @@
                                             <hr>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4>Datos de facturación/Resp. Legal</h4>
+                                                    <h4>Datos del padre/madre/tutor</h4>
                                                 </div>
                                             </div>
                                             <div class="form-group">
