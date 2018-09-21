@@ -203,27 +203,13 @@
                 
                 <div id="infoCuota" title="Info de pago" style="display:none">
                     <p>
-                        Abonar mediante transferencia bancaria</br>
+                        Abonar en Banco Galicia</br>
 
-                        Banco Galicia</br>
+                        por cajero de autoservicio o por ventanilla</br>
 
-                        Cta. Cte. N° 1447-8186-3</br>
+                        con el nro de DNI del pasajero</br>
 
-                        CBU 0070186620000001447839</br>
-
-                        Banco Santander</br>
-
-                        Cta. Cte. N° 523-16/1</br>
-
-                        CBU 0720523120000000001618</br>
-
-                        Titular: Wayla Turismo SRL</br>
-
-                        Cuit: 30-71509621-4</br>
-
-                        Enviar comprobante: pagos@waylaturismo.com.ar</br>
-
-                        Indicando pasajero y colegio para su acreditación.</br>
+                        o con el nro de convenio: 4687</br>
 
                         Muchas gracias
                     </p>
@@ -239,6 +225,18 @@
                        cada pasajero los datos allí insertos.</br></br>
                        
                        Al aceptar, Declaro que HE leído y acepto los términos y condiciones de Wayla Turismo SRL.</br>
+                    </p>
+                </div>
+                <div id="infoPagos" title="Importante" style="display:none">
+                    <p>
+                        Estimados padres:</br></br>
+
+                       En caso de poseer el comprobante de pago</br>
+
+                       de alguna cuota que figura impaga en este sistema,</br>
+
+                       por favor desestime la deuda que figura para dicha cuota.</br></br>
+                       
                     </p>
                 </div>
             </body>

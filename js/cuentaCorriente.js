@@ -5,6 +5,7 @@ $(document).ready(function() {
         $target = $('#'+$input.attr('data-toggle'));
         $target.slideToggle();
     });
+    infoPagos();
 });
 
 function descargarCuota(numero, pasajero){
@@ -30,3 +31,16 @@ function infoCuota(){
             draggable: false
         });
 }        
+
+function infoPagos(){
+    $('#infoPagos').dialog({
+            width: 'auto',
+            maxWidth: 600,
+            height: 'auto',
+            modal: true,
+            fluid: true,
+            resizable: false,
+            draggable: false,
+            position: 'top'
+        });
+}   
