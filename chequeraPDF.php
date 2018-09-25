@@ -111,7 +111,7 @@ foreach ($data as $cuota) {
             $msj = "Esta cuota no se encuentra habilitada para abonar. Contacte a la administraci&oacute;n";
         }else{
             $msj = "Abonar en Banco Galicia por cajero de autoservicio o por ventanilla "
-                ."con el nro de DNI del pasajero o con el nro de convenio: 4687";
+                ."con el nro de DNI del pasajero y con el nro de convenio: 4687";
         }
         $pdf->SetXY(120, 74+$Y);
         $pdf->SetFont('Arial','',9);

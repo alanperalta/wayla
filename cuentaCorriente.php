@@ -209,7 +209,7 @@
 
                         con el nro de DNI del pasajero</br>
 
-                        o con el nro de convenio: 4687</br>
+                        y con el nro de convenio: 4687</br>
 
                         Muchas gracias
                     </p>
