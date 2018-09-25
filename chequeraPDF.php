@@ -110,7 +110,8 @@ foreach ($data as $cuota) {
         else if($cuota['estado'] == 'I'){
             $msj = "Esta cuota no se encuentra habilitada para abonar. Contacte a la administraci&oacute;n";
         }else{
-            $msj = "Este importe puede pagarse únicamente por transferencia bancaria o personalmente.";
+            $msj = "Abonar en Banco Galicia por cajero de autoservicio o por ventanilla "
+                ."con el nro de DNI del pasajero o con el nro de convenio: 4687";
         }
         $pdf->SetXY(120, 74+$Y);
         $pdf->SetFont('Arial','',9);
