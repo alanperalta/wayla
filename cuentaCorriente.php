@@ -53,6 +53,19 @@
                     <div class="logo">
                         <img src="resources/wayla.png"/>
                     </div>
+                    <?php 
+                        $getDataResultDifImpagas = ItsGetData($userSession, '_TUR_CUOTAS_WEB', '100', "FK_TUR_PASAJEROS='".$pasajero."' AND TIPO in ('D', 'Z') AND ESTADO in ('H', 'R')", 'FK_TUR_CONTRATOS DESC, CUOTA_ORDEN ASC');
+                        if(!$getDataResultDifImpagas['error']) {
+                            if(count($getDataResultDifImpagas['data']) > 1){?>
+                                <div class="row info-diferencia">
+                                    <p>Atenci&oacute;n: Le informamos que al d&iacute;a de la fecha tiene diferencias de cambio pendientes de pago.
+                                        Las mismas est&aacute;n detalladas de debajo de cada cuota correspondiente al plan.</p>
+                                </div>
+                    <?php }}else {
+                            ItsLogout($userSession);
+                            $_SESSION['msj'] = $getDataResultDifImpagas['message'];
+                            header('location: index.php');
+                        }?>
                     <div class="row">
                         <div class="col-md-offset-8 col-md-4 formularioAdhesion">
                             <button id="descargarFormulario" class="btn" onclick="descargarFormulario('<?=$pasajeroPDF?>');">Descargar Formulario de adhesi&oacuten</button>

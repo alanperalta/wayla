@@ -64,3 +64,12 @@
     width: 100%;
     text-align: center;
 }
+
+.info-diferencia{
+    font-weight: bold;
+    border: 1px black solid;
+    background-color: yellow;
+    max-width: 80%;
+    margin: 50px auto auto auto;
+    padding: 10px;
+}
