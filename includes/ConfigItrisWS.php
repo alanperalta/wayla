@@ -3,7 +3,7 @@
         
         //Configuraciones de WS
         //-----------------------------------------------
-	$ws = 'http://srv01.tgroup.com.ar:8080';
+	$ws = 'http://srv01.tgroup.com.ar:85';
         $user = 'ws';
         $db = 'WAYLA_PRUEBA';
         $password = 'tedei0332';
@@ -73,7 +73,7 @@
             $result = curl_exec($ch);
             curl_close($ch);
             
-            return json_decode(utf8_encode($result), TRUE);
+            return json_decode($result, TRUE);
         }
         
         function ItsPostData($usersession, $class, $data){
