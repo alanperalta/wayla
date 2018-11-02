@@ -79,7 +79,12 @@
                             $listaCuotas = $getDataResultCuotas['data'];
                             if(count($getDataResultCuotas['data']) > 0){
                                 foreach ($getDataResultCuotas['data'] as $cuota) {
-                                    if($contratoActual != (string)$cuota['FK_TUR_CONTRATOS']){?>
+                                    if($contratoActual != (string)$cuota['FK_TUR_CONTRATOS']){
+                                        if(strpos((string)$cuota['DES_PRODUCTO'], 'FORTALEZA')!== FALSE){?>
+                                            <div class="row">
+                                                <p class="msj-fortaleza">Bienvenido a su contrato de Fortaleza</p>
+                                            </div>
+                                        <?php } ?>
                                         <div class="panel panel-default panel-cuotas">
                                             <div class="panel-heading">
                                                 <div class="row">

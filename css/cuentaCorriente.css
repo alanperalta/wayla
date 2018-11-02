@@ -73,3 +73,11 @@
     margin: 50px auto auto auto;
     padding: 10px;
 }
+
+.msj-fortaleza{
+    color: red;
+    text-align: center;
+    margin: 25px;
+    font-size: 30px;
+    font-weight: bold;
+}
