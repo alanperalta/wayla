@@ -245,18 +245,6 @@
                        Al aceptar, Declaro que HE leído y acepto los términos y condiciones de Wayla Turismo SRL.</br>
                     </p>
                 </div>
-                <div id="infoPagos" title="Importante" style="display:none">
-                    <p>
-                        Estimados padres:</br></br>
-
-                       En caso de poseer el comprobante de pago</br>
-
-                       de alguna cuota que figura impaga en este sistema,</br>
-
-                       por favor desestime la deuda que figura para dicha cuota.</br></br>
-                       
-                    </p>
-                </div>
             </body>
         </html>
 <?php

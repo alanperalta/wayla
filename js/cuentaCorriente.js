@@ -31,16 +31,3 @@ function infoCuota(){
             draggable: false
         });
 }        
-
-function infoPagos(){
-    $('#infoPagos').dialog({
-            width: 'auto',
-            maxWidth: 600,
-            height: 'auto',
-            modal: true,
-            fluid: true,
-            resizable: false,
-            draggable: false,
-            position: 'top'
-        });
-}   
