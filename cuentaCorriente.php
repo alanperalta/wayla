@@ -188,7 +188,7 @@
                                                                 </div>
                                                                     <div class="row">
                                                                         <div class="col-xs-8 col-xs-offset-2 hidden-md hidden-lg div-imprimir">
-                                                                         <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR']) {?>
+                                                                         <?php if(($hoy <= $vencimiento2) && ($cuotaDetalle['ESTADO'] == 'H' || $cuotaDetalle['ESTADO'] == 'R') && $cuotaDetalle['COD_BAR']) {?>
                                                                             <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>');">Imprimir cup&oacute;n</button>
                                                                         <?php }else if($cuotaDetalle['ESTADO'] == 'I'){?>
                                                                             <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
