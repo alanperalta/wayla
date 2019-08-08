@@ -1,8 +1,8 @@
 <?php
-  require_once('includes/ConfigItrisWS.php');
+  require_once('../includes/ConfigItrisWS.php');
   
     if(!isset($_POST['dni'])){
-        $_SESSION['msj'] = 'Vuelva a ingresar su DNI';
+        $_SESSION['msj'] = 'Vuelva a ingresar su NIE';
         header('location: index.php');
         exit();
     }
@@ -25,10 +25,9 @@
             setcookie ("dni", "", time()+ (10 * 365 * 24 * 60 * 60));
 	}
         
-        $dni = str_replace('.', '', $_POST['dni']);
-        $getDataResult = ItsGetData($userSession, '_TUR_PASAJEROS', '1', "REPLACE(NUM_DOC, '.', '')='".$dni."'");
+        $dni = $_POST['dni'];
+        $getDataResult = ItsGetData($userSession, '_TUR_PASAJEROS', '1', "NUM_DOC='".$dni."'");
         if(!$getDataResult['error']) {
-            
             if(count($getDataResult['data']) > 0) {
                 $pasajero = (string)$getDataResult['data'][0]['ID'];
                 $pasajeroPDF = encriptado($pasajero);
@@ -40,51 +39,33 @@
                 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
                 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
                 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-                <script src="includes/jQuery-ui/jquery-ui.min.js"></script>
-                <link href="includes/jQuery-ui/jquery-ui.min.css" rel="stylesheet">
-                <link href="includes/jQuery-ui/jquery-ui.theme.min.css" rel="stylesheet">
+                <script src="../includes/jQuery-ui/jquery-ui.min.js"></script>
+                <link href="../includes/jQuery-ui/jquery-ui.min.css" rel="stylesheet">
+                <link href="../includes/jQuery-ui/jquery-ui.theme.min.css" rel="stylesheet">
                 <script src="js/cuentaCorriente.js"></script>
-                <link href="css/cuentaCorriente.css" rel="stylesheet">
-                <link href="css/footer.css" rel="stylesheet">
+                <link href="../css/cuentaCorriente.css" rel="stylesheet">
+                <link href="../css/footer.css" rel="stylesheet">
             </head>
             <body>
                 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
                 <div class="container">
                     <div class="logo">
-                        <img src="resources/wayla.png"/>
+                        <img src="../resources/wayla.png"/>
                     </div>
-                    <?php 
-                        $getDataResultDifImpagas = ItsGetData($userSession, '_TUR_CUOTAS_WEB', '100', "FK_TUR_PASAJEROS='".$pasajero."' AND TIPO in ('D', 'Z') AND ESTADO in ('H', 'R')", 'FK_TUR_CONTRATOS DESC, CUOTA_ORDEN ASC');
-                        if(!$getDataResultDifImpagas['error']) {
-                            if(count($getDataResultDifImpagas['data']) > 1){?>
-                                <div class="row info-diferencia">
-                                    <p>Atenci&oacute;n: Le informamos que al d&iacute;a de la fecha tiene diferencias de cambio pendientes de pago.
-                                        Las mismas est&aacute;n detalladas de debajo de cada cuota correspondiente al plan.</p>
-                                </div>
-                    <?php }}else {
-                            ItsLogout($userSession);
-                            $_SESSION['msj'] = $getDataResultDifImpagas['message'];
-                            header('location: index.php');
-                        }?>
                     <div class="row">
                         <div class="col-md-offset-8 col-md-4 formularioAdhesion">
                             <button id="descargarFormulario" class="btn" onclick="descargarFormulario('<?=$pasajeroPDF?>');">Descargar Formulario de adhesi&oacuten</button>
                         </div>
                     </div>
                     <?php 
-                        $getDataResultCuotas = ItsGetData($userSession, '_TUR_CUOTAS_WEB', '100', "FK_TUR_PASAJEROS='".$pasajero."' AND NOT (TIPO = 'D' AND DIF_USD <> 0)", 'FK_TUR_CONTRATOS DESC, CUOTA_ORDEN ASC');
+                        $getDataResultCuotas = ItsGetData($userSession, '_TUR_CUOTAS_WEB', '100', "FK_TUR_PASAJEROS='".$pasajero."'", 'FK_TUR_CONTRATOS DESC, CUOTA_ORDEN ASC');
                         if(!$getDataResultCuotas['error']) {
                             $contratoActual = '';
                             $i = 1;
                             $listaCuotas = $getDataResultCuotas['data'];
                             if(count($getDataResultCuotas['data']) > 0){
                                 foreach ($getDataResultCuotas['data'] as $cuota) {
-                                    if($contratoActual != (string)$cuota['FK_TUR_CONTRATOS']){
-                                        if(strpos((string)$cuota['DES_PRODUCTO'], 'FORTALEZA')!== FALSE){?>
-                                            <div class="row">
-                                                <p class="msj-fortaleza">Bienvenido a su contrato de Fortaleza</p>
-                                            </div>
-                                        <?php } ?>
+                                    if($contratoActual != (string)$cuota['FK_TUR_CONTRATOS']){ ?>
                                         <div class="panel panel-default panel-cuotas">
                                             <div class="panel-heading">
                                                 <div class="row">
@@ -130,7 +111,7 @@
                                                                         Total abonado:
                                                                     </div>
                                                                     <div class="col-xs-6 col-md-4">
-                                                                        <?="$ ".$cuotaDetalle['NETO']?>
+                                                                        <?="€ ".$cuotaDetalle['NETO']?>
                                                                     </div>
                                                                 </div>
                                                               <?php } else{?>
@@ -139,7 +120,7 @@
                                                                         Importe:
                                                                     </div>
                                                                     <div class="col-xs-6 col-md-4">
-                                                                        <?="$ ".$cuotaDetalle['IMPORTE']?>
+                                                                        <?="€ ".$cuotaDetalle['IMPORTE']?>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -155,7 +136,7 @@
                                                                         Importe 2do vencimiento:
                                                                     </div>
                                                                     <div class="col-xs-6 col-md-4">
-                                                                        <?="$ ".$cuotaDetalle['IMP_CON_REC']?>
+                                                                        <?="€ ".$cuotaDetalle['IMP_CON_REC']?>
                                                                     </div>
                                                                     <div class="col-md-2 hidden-xs hidden-sm">
                                                                     <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR'] != '') {?>
@@ -183,7 +164,7 @@
                                                                         Resta pagar:
                                                                     </div>
                                                                     <div class="col-xs-6 col-md-4">
-                                                                        <?="$ ".$cuotaDetalle['SALDO']?>
+                                                                        <?="€ ".$cuotaDetalle['SALDO']?>
                                                                     </div>
                                                                 </div>
                                                                     <div class="row">
@@ -221,20 +202,11 @@
                 
                 <div id="infoCuota" title="Info de pago" style="display:none">
                     <p>
-                        Abonar en Banco Galicia</br>
-
-                        por cajero de autoservicio o por ventanilla</br>
-
-                        con el nro de DNI del pasajero</br>
-
-                        y con el nro de convenio: 4687</br>
-
-                        Muchas gracias
                     </p>
                 </div>
                 <div id="terminos" title="T&eacute;rminos y Condiciones" style="display:none">
                     <p>
-                        Estimados padres:</br></br>
+                        Estimados pasajeros:</br></br>
 
                        Informamos a Ud. que la carga de los siguientes datos debe ser FIDEDIGNA, EXACTA Y VERAZ</br>
 
@@ -242,7 +214,7 @@
 
                        cada pasajero los datos allí insertos.</br></br>
                        
-                       Al aceptar, Declaro que HE leído y acepto los términos y condiciones de Wayla Turismo SRL.</br>
+                       Al aceptar, Declaro que he leído y acepto los términos y condiciones de Wayla Turismo SL.</br>
                     </p>
                 </div>
             </body>
@@ -251,7 +223,7 @@
             ItsLogout($userSession);
             }else{
                 ItsLogout($userSession);
-                $_SESSION['msj'] = 'DNI no asociado a una cuenta, debe registrarse primero';
+                $_SESSION['msj'] = 'NIE no asociado a una cuenta, debe registrarse primero';
                 header('location: index.php');
             }
         } else {
