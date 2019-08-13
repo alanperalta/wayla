@@ -72,7 +72,7 @@
                                                     <div class="col-md-8"
                                                         <h3 class="panel-title">Contrato: <?=$cuota['FK_TUR_CONTRATOS']." - ".$cuota['DES_PRODUCTO']?></h3>
                                                     </div>
-                                                    <?php if($cuota['ESTADO_GEN'] == 'H'){?>
+                                                    <?php if($cuota['ESTADO_GEN'] == 'H' && false){ //ES- no lleva chequera?>
                                                         <div class="col-md-4">
                                                             <button class="btn btn-chequera pull-right" onclick="descargarChequera('<?=$cuota['FK_TUR_CONTRATOS']."', '".$pasajeroPDF?>');">Descargar chequera</button>
                                                         </div>
@@ -84,7 +84,7 @@
                                                 $hoy = new DateTime(date('Y-m-d'));
                                                 $vencimiento2 = new DateTime(date('Y-m-d', strtotime(str_replace("/", "-", $cuotaDetalle['FEC_VEN_2']))));
                                                 //Regeneracion de 2do vencimiento
-                                                if($cuotaDetalle['ESTADO'] == 'H' && $cuota['ESTADO_GEN'] == 'H' && $cuotaDetalle['TIPO'] == 'N' && $hoy > $vencimiento2){
+                                                /*if($cuotaDetalle['ESTADO'] == 'H' && $cuota['ESTADO_GEN'] == 'H' && $cuotaDetalle['TIPO'] == 'N' && $hoy > $vencimiento2){
                                                     $data = array(
                                                         'FEC_VEN_2' => date('d/m/Y')
                                                     );
@@ -93,7 +93,7 @@
                                                         $cuotaDetalle['FEC_VEN_2'] = date('d/m/Y');
                                                         $vencimiento2 = new DateTime(date('Y-m-d'));
                                                     }
-                                                }
+                                                }*/
                                                 if((string)$cuotaDetalle['FK_TUR_CONTRATOS'] == (string)$cuota['FK_TUR_CONTRATOS']){?>
                                                     <li class="list-group-item <?=($cuotaDetalle['ESTADO'] == 'P')?'lista-verde':''?>">
                                                         <div class="row toggle" id="dropdown-detail-<?=$i?>" data-toggle="detail-<?=$i?>">
@@ -139,13 +139,11 @@
                                                                         <?="€ ".$cuotaDetalle['IMP_CON_REC']?>
                                                                     </div>
                                                                     <div class="col-md-2 hidden-xs hidden-sm">
-                                                                    <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR'] != '') {?>
-                                                                        <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>')">Imprimir cup&oacute;n</button>
-                                                                    <?php }else if($cuotaDetalle['ESTADO'] == 'I'){?>
-                                                                        <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                    <?php } else if(($cuotaDetalle['COD_BAR'] == '' || $hoy > $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H'){?>
-                                                                        <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
-                                                                    <?php }?>
+                                                                        <?php if($cuotaDetalle['ESTADO'] == 'I'){?>
+                                                                            <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
+                                                                        <?php } else {?>
+                                                                            <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
+                                                                        <?php }?>
                                                                     </div>
                                                                 </div>
                                                                 
@@ -169,13 +167,11 @@
                                                                 </div>
                                                                     <div class="row">
                                                                         <div class="col-xs-8 col-xs-offset-2 hidden-md hidden-lg div-imprimir">
-                                                                         <?php if(($hoy <= $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H' && $cuotaDetalle['COD_BAR']) {?>
-                                                                            <button class="btn btn-imprimir" onclick="descargarCuota('<?=$cuotaDetalle['NUM_COM']."', '".$pasajeroPDF?>');">Imprimir cup&oacute;n</button>
-                                                                        <?php }else if($cuotaDetalle['ESTADO'] == 'I'){?>
-                                                                            <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
-                                                                        <?php } else if(($cuotaDetalle['COD_BAR'] == '' || $hoy > $vencimiento2) && $cuotaDetalle['ESTADO'] == 'H'){?>
-                                                                            <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
-                                                                        <?php }?>
+                                                                            <?php if($cuotaDetalle['ESTADO'] == 'I'){?>
+                                                                               <div class="cuota-vencida">Cuota vencida o plan ca&iacute;do, contacte a la administraci&oacuten.</div>
+                                                                           <?php } else {?>
+                                                                               <button class="btn btn-imprimir" onclick="infoCuota()">Ver info</button>
+                                                                           <?php }?>   
                                                                         </div>
                                                                     </div>
                                                               <?php }?>
@@ -201,8 +197,8 @@
                 </div>
                 
                 <div id="infoCuota" title="Info de pago" style="display:none">
-                    <p>
-                    </p>
+                    <p>Esta cuota puede ser abonada a través de transferencia bancaria a la cuenta corriente</p>
+                    <p> ES46 2100 1417 1102 0064 5901 del Caixa Bank de Wayla Turismo SL.</p>
                 </div>
                 <div id="terminos" title="T&eacute;rminos y Condiciones" style="display:none">
                     <p>
